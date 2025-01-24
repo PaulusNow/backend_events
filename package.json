@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "build": "npm install && npm rebuild bcrypt --build-from-source",
-    "postinstall": "npm rebuild bcrypt --build-from-source",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
