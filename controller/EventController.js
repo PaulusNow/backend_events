@@ -2,7 +2,9 @@ import Event from "../models/EventModel.js";
 
 export const getEvent = async (req, res) => {
     try {
-        const respons = await Event.findAll();
+        const respons = await Event.findAll({
+            attributes: ['id', 'name', 'date', 'location', 'description', 'ticketsAvailable']
+        });
         res.status(200).json(respons)
     } catch (error) {
         console.log(error.message)
@@ -24,8 +26,7 @@ export const getEventById = async (req, res) => {
 
 export const createEvent = async (req, res) => {
   try {
-    // Ambil data dari body
-    const { name, date, ticketsAvailable, price } = req.body;
+    const { name, date, location, description, ticketsAvailable } = req.body;
 
     // Konversi format tanggal DD/MM/YYYY ke YYYY-MM-DD
     const formattedDate = date.split("/").reverse().join("-");
@@ -34,8 +35,9 @@ export const createEvent = async (req, res) => {
     await Event.create({
       name,
       date: formattedDate,
+      location,
+      description,
       ticketsAvailable,
-      price,
     });
 
     res.status(201).json({ message: "Event Berhasil Ditambahkan" });
@@ -45,17 +47,35 @@ export const createEvent = async (req, res) => {
   }
 };
 
-
 export const UpdateEvent = async (req, res) => {
+    const eventId = req.params.id;
+    const { name, date, location, description, ticketsAvailable } = req.body;
+
+    if (!eventId) {
+        return res.status(400).json({ message: 'Event ID tidak diketahui' });
+    }
+
+    if (!name && !date && !location && !description && !ticketsAvailable) {
+        return res.status(400).json({ message: "Minimal isi 1 field untuk update." });
+    }
+
     try {
-        await Event.update(req.body, {
-            where: {
-                id: req.params.id
-            }
-        });
+        const event = await Event.findOne({ where: { id: eventId } });
+        if (!event) {
+            return res.status(404).json({ message: "Event tidak ditemukan." });
+        }
+
+        if (name) event.name = name;
+        if (date) event.date = date;
+        if (location) event.location = location;
+        if (description) event.description = description;
+        if (ticketsAvailable) event.ticketsAvailable = ticketsAvailable;
+
+        await event.save();
         res.status(200).json({ message: "Event Berhasil Diedit" })
     } catch (error) {
         console.log(error.message)
+        return res.status(500).json({ message: "Internal server error." });
     }
 }
 

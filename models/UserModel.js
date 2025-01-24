@@ -25,8 +25,8 @@ const Users = db.define("users", {
       type:DataTypes.TEXT
     },
     is_admin: {
-        type:DataTypes.BOOLEAN,
-        defaultValue: false
+      type:DataTypes.BOOLEAN,
+      defaultValue: false
     }
   },
   {

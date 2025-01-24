@@ -1,5 +1,5 @@
 GET http://localhost:5000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJBZG1pbiIsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3Mzc1NjA2MjcsImV4cCI6MTczNzU2MDY0Mn0.OEzZro18aWTs5PHMO_jPyddEMLSo99ogdJ6S_3XpqEI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhZG1pbiBhamEiLCJ1c2VybmFtZSI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzM3Njg3MjIwLCJleHAiOjE3Mzc2OTA4MjB9.TLwl-a7Iqpwe5AKMfRu6NFaIWbsMrsfCpq2OstAJIgs
 
 ###
 POST http://localhost:5000/users
@@ -26,3 +26,53 @@ GET http://localhost:5000/token
 
 ###
 DELETE http://localhost:5000/logout
+
+###
+PUT http://localhost:5000/users/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhZG1pbiIsInVzZXJuYW1lIjoiYWRtaW5fXyIsImlhdCI6MTczNzY0MjgyNSwiZXhwIjoxNzM3NjQyODQ1fQ.8__gqLnfDr2ulmg7598mjRe7ag_FFC7dTgdfTNMQnkg
+
+{
+  "name": "admin",
+  "username": "admin",
+  "password": "admin123",
+  "confirmPassword": "admin123"
+}
+
+###
+POST http://localhost:5000/event
+Content-Type: application/json
+
+{
+    "name": "Event D",
+    "date": "30/01/2025",
+    "location": "Surabaya, Indonesia",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tortor libero, dictum eget tellus sed, malesuada posuere magna. Pellentesque rhoncus interdum viverra. Fusce viverra neque sit amet pulvinar euismod. Suspendisse eu ex eu lectus euismod finibus. Aliquam ornare purus tellus, eu sollicitudin risus sagittis eget. Praesent egestas, ipsum maximus malesuada vestibulum, tellus tortor condimentum massa, ac egestas tellus velit et leo. Nam imperdiet orci eu porttitor condimentum. Maecenas egestas nibh sed sem molestie, id dapibus est iaculis. Nunc facilisis accumsan magna nec eleifend. Sed lorem purus, luctus in turpis in, molestie elementum tellus. Fusce ultricies iaculis eros id faucibus. Maecenas nisi mi, sollicitudin fringilla leo vitae, vehicula ultricies sem. Praesent maximus sem vitae velit ultricies, a bibendum sem gravida. Sed est turpis, mollis et placerat nec, scelerisque sed tellus. Nunc vitae dui congue, semper lectus sit amet, dapibus tellus. Vivamus eget condimentum massa. Fusce at accumsan magna. Suspendisse potenti. Fusce a nulla ornare, vestibulum felis vitae, aliquet erat.",
+    "ticketsAvailable": "10"
+}
+
+###
+GET http://localhost:5000/event
+
+###
+PUT http://localhost:5000//event/1
+Content-Type: application/json
+
+{
+    "name": "Event D",
+    "date": "30/01/2025",
+    "location": "Surabaya, Indonesia",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tortor libero, dictum eget tellus sed, malesuada posuere magna. Pellentesque rhoncus interdum viverra. Fusce viverra neque sit amet pulvinar euismod. Suspendisse eu ex eu lectus euismod finibus. Aliquam ornare purus tellus, eu sollicitudin risus sagittis eget. Praesent egestas, ipsum maximus malesuada vestibulum, tellus tortor condimentum massa, ac egestas tellus velit et leo. Nam imperdiet orci eu porttitor condimentum. Maecenas egestas nibh sed sem molestie, id dapibus est iaculis. Nunc facilisis accumsan magna nec eleifend. Sed lorem purus, luctus in turpis in, molestie elementum tellus. Fusce ultricies iaculis eros id faucibus. Maecenas nisi mi, sollicitudin fringilla leo vitae, vehicula ultricies sem. Praesent maximus sem vitae velit ultricies, a bibendum sem gravida. Sed est turpis, mollis et placerat nec, scelerisque sed tellus. Nunc vitae dui congue, semper lectus sit amet, dapibus tellus. Vivamus eget condimentum massa. Fusce at accumsan magna. Suspendisse potenti. Fusce a nulla ornare, vestibulum felis vitae, aliquet erat.",
+    "ticketsAvailable": "10"
+}
+
+###
+POST http://localhost:5000/booking
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhZG1pbiBhamEiLCJ1c2VybmFtZSI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzM3NzMxMzU5LCJleHAiOjE3Mzc3MzQ5NTl9.c4JhicGj6Azmjjo17dwf4BSrVhuYu920x35DWahm30Q
+
+{
+    "eventId": 1,
+    "userId": 1,
+    "quantity": 1
+}

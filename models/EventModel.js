@@ -17,12 +17,16 @@ const Event = db.define("events", {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    ticketsAvailable: {
-      type: DataTypes.INTEGER,
+    location: {
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
-    price: {
-      type: DataTypes.DECIMAL(10, 2),
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    ticketsAvailable: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },

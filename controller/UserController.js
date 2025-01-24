@@ -1,6 +1,5 @@
 import User from "../models/UserModel.js";
 import bcrypt from "bcrypt";
-import { response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
@@ -9,7 +8,7 @@ dotenv.config();
 export const getUser = async (req, res) => {
     try {
         const respons = await User.findAll({
-            attributes: ['id', 'name', 'username']
+            attributes: ['id', 'name', 'username', 'is_admin']
         });
         res.status(200).json(respons)
     } catch (error) {
@@ -57,18 +56,44 @@ const { name, username, password, confPassword } = req.body;
     }
 }
 
-export const UpdateUser = async (req, res) => {
-    try {
-        await User.update(req.body, {
-            where: {
-                id: req.params.id
-            }
-        });
-        res.status(200).json({ message: "User Berhasil Diedit" })
-    } catch (error) {
-        console.log(error.message)
+export const updateUser = async (req, res) => {
+    const userId = req.params.id;
+    const { name, username, password, confirmPassword } = req.body;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID tidak diketahui' });
     }
-}
+
+    if (!name && !username && !password) {
+        return res.status(400).json({ message: "Minimal isi 1 field untuk update." });
+    }
+
+    if (password && password !== confirmPassword) {
+        return res.status(400).json({ message: "Password dan confirm password tidak sama" });
+    }
+
+    try {
+        const user = await User.findOne({ where: { id: userId } });
+
+        if (!user) {
+            return res.status(404).json({ message: "User tidak ditemukan." });
+        }
+
+        if (name) user.name = name;
+        if (username) user.username = username;
+
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(password, salt);
+        }
+
+        await user.save();
+        return res.status(200).json({ message: "User berhasil diedit" });
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ message: "Internal server error." });
+    }
+};
 
 export const DeleteUser = async (req, res) => {
     try {
@@ -97,8 +122,9 @@ export const Login = async(req, res) => {
         const userId = user[0].id
         const name = user[0].name
         const username = user[0].username
-        const accessToken = jwt.sign({userId, name, username}, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '20s'
+        const isAdmin = user[0].is_admin; // Fetch is_admin property
+        const accessToken = jwt.sign({userId, name, username, isAdmin}, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '1h'
         })
         const refreshToken = jwt.sign({userId, name, username}, process.env.REFRESH_TOKEN_SECRET, {
             expiresIn: '1d'
