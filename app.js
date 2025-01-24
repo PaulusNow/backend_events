@@ -18,7 +18,7 @@ const app = express();
 const server = http.createServer(app); // Membuat server HTTP
 export const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000", // Sesuaikan dengan origin frontend Anda
+        origin: "https://frontend-events-kappa.vercel.app/", // Sesuaikan dengan origin frontend Anda
         methods: ["GET", "POST"],
     },
 });
@@ -32,7 +32,7 @@ try {
 }
 
 // Middleware
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: "https://frontend-events-kappa.vercel.app/" }));
 app.use(cookieParser());
 app.use(express.json());
 
