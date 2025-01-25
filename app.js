@@ -24,7 +24,7 @@ const app = express();
 const server = http.createServer(app); // Membuat server HTTP
 
 // Middleware
-app.use(cors({ credentials: true, origin: "https://acceptable-fulfillment-production.up.railway.app" }));
+app.use(cors({ credentials: true, origin: "*" }));
 app.use(cookieParser());
 app.use(express.json());
 
