@@ -2,12 +2,27 @@ GET http://localhost:5000/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhZG1pbiBhamEiLCJ1c2VybmFtZSI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzM3Njg3MjIwLCJleHAiOjE3Mzc2OTA4MjB9.TLwl-a7Iqpwe5AKMfRu6NFaIWbsMrsfCpq2OstAJIgs
 
 ###
+GET https://acceptable-fulfillment-production.up.railway.app/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhZG1pbiBhamEiLCJ1c2VybmFtZSI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzM3NzcxMDYxLCJleHAiOjE3Mzc3NzQ2NjF9.iTxOEy68TV8zTqAPcmSrYu8IwimFkKbf4U2dnDsD-Co
+
+###
 POST http://localhost:5000/users
 Content-Type: application/json
 
 {
     "name": "Admin3",
     "username": "admin3",
+    "password": "admin123",
+    "confPassword": "admin123"
+}
+
+###
+POST https://acceptable-fulfillment-production.up.railway.app/users
+Content-Type: application/json
+
+{
+    "name": "Admin5",
+    "username": "admin5",
     "password": "admin123",
     "confPassword": "admin123"
 }
@@ -21,9 +36,18 @@ Content-Type: application/json
     "password": "admin123"
 }
 
+###
+POST https://acceptable-fulfillment-production.up.railway.app/login
+Content-Type: application/json
+
+{
+    "username": "admin5",
+    "password": "admin123",
+}
+
 
 ###
-POST acceptable-fulfillment-production.up.railway.app/login
+POST https://acceptable-fulfillment-production.up.railway.app/login
 Content-Type: application/json
 
 {
