@@ -24,7 +24,15 @@ const app = express();
 const server = http.createServer(app); // Membuat server HTTP
 
 // Middleware
-app.use(cors({ credentials: true, origin: `${process.env.API_FRONTEND_URL}` }));
+const cors = require('cors');
+
+const corsOptions = {
+  origin: 'https://frontend-events-kappa.vercel.app',
+  methods: 'GET,POST,PUT,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization',
+};
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
