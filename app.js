@@ -24,7 +24,7 @@ const app = express();
 const server = http.createServer(app); // Membuat server HTTP
 
 // Middleware
-app.use(cors({ credentials: true, origin: "*" }));
+app.use(cors({ credentials: true, origin: `${process.env.API_FRONTEND_URL}` }));
 app.use(cookieParser());
 app.use(express.json());
 
