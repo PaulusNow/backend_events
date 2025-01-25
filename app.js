@@ -25,10 +25,13 @@ const server = http.createServer(app); // Membuat server HTTP
 
 // Middleware CORS
 const corsOptions = {
-    origin: "https://frontend-events-kappa.vercel.app", // Ganti dengan domain frontend Anda
+    origin: "https://frontend-events-kappa.vercel.app", // Ganti dengan domain frontend
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Content-Type,Authorization",
+    credentials: true, // Izinkan pengiriman cookie/credentials
 };
+
+app.use(cors(corsOptions));
 
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
