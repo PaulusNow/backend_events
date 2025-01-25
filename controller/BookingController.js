@@ -1,4 +1,3 @@
-import { io } from '../app.js'; // Pastikan path sesuai dengan lokasi app.js kamu
 import Booking from '../models/BookingModel.js';
 import Event from '../models/EventModel.js'; // Pastikan path-nya sesuai
 
@@ -12,7 +11,7 @@ export const createBooking = async (req, res) => {
       return res.status(404).json({ error: "Event tidak ditemukan" });
     }
 
-    if (event.ticketAvailable < quantity) {
+    if (event.ticketsAvailable < quantity) {
       return res.status(400).json({ error: "Tiket tidak cukup tersedia" });
     }
 
@@ -24,13 +23,13 @@ export const createBooking = async (req, res) => {
     };
     const newBooking = await Booking.create(bookingData);
 
-    // Kurangi ticketAvailable di tabel Event
+    // Kurangi ticketsAvailable di tabel Event
     await event.update({
       ticketsAvailable: event.ticketsAvailable - quantity
     });
 
     // Emit event untuk memberi tahu klien
-    io.emit('bookingUpdated', { message: 'A new booking has been made', booking: newBooking });
+    // io.emit('bookingUpdated', { message: 'A new booking has been made', booking: newBooking });
 
     return res.status(201).json(newBooking);
   } catch (error) {
