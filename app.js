@@ -14,30 +14,41 @@ import Event from "./models/EventModel.js";
 dotenv.config();
 
 try {
-    await db.authenticate()
-    console.log('Database Connected..')
+    await db.authenticate();
+    console.log("Database Connected..");
 } catch (error) {
-    console.error(error)
+    console.error(error);
 }
 
 const app = express();
 const server = http.createServer(app); // Membuat server HTTP
 
-// Middleware
-const cors = require('cors');
-
+// Middleware CORS
 const corsOptions = {
-  origin: 'https://frontend-events-kappa.vercel.app',
-  methods: 'GET,POST,PUT,DELETE,OPTIONS',
-  allowedHeaders: 'Content-Type,Authorization',
+    origin: "https://frontend-events-kappa.vercel.app", // Ganti dengan domain frontend Anda
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
 };
 
 app.use(cors(corsOptions));
+app.use((req, res, next) => {
+    if (req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Origin", corsOptions.origin);
+        res.header("Access-Control-Allow-Methods", corsOptions.methods);
+        res.header("Access-Control-Allow-Headers", corsOptions.allowedHeaders);
+        return res.status(200).send(); // Response preflight
+    }
+    next();
+});
+
+// Middleware lainnya
 app.use(cookieParser());
 app.use(express.json());
 
 // Routes
-app.use( Eventsrouter, UsersRouter, BookingRouter);
+app.use("/events", Eventsrouter);
+app.use("/users", UsersRouter);
+app.use("/bookings", BookingRouter);
 
 // POST untuk booking dan update tiket
 app.post("/booking", async (req, res) => {
